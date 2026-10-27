@@ -65,6 +65,24 @@ Il database `seo/parole-chiave.json` contiene, per settore, le ricerche tipiche 
 
 Le priorità indicano quanto la ricerca è vicina alla decisione di andare nel locale, non il volume di ricerca. Per aggiungere nuove città, piatti o servizi basta modificare il file JSON.
 
+## Gestione del cliente (piano Plus)
+
+Il titolare può modificare da solo, dal telefono: **prezzi**, **piatti esauriti**, **piatto del giorno** e un **avviso** in cima al sito (es. chiusura straordinaria, con scadenza automatica). Le modifiche compaiono subito; se il servizio non risponde, il sito mostra il menu normale.
+
+Come funziona: i dati stanno su Supabase (server in UE). Il sito li legge in sola lettura; le scritture passano solo dalla funzione `supabase/functions/gestione`, che controlla il **codice personale** del cliente (nel database c'è solo la sua impronta).
+
+Configurazione (una volta sola):
+
+1. Su Supabase applica `supabase/migrations/001_gestione.sql` e pubblica la funzione `gestione` (senza verifica JWT: l'accesso lo controlla il codice)
+2. In `config.json`, sezione `gestione`: URL del progetto e chiave pubblicabile (`sb_publishable_...`)
+3. Copia `.env.esempio` in `.env.locale` e inserisci URL e chiave secret (serve solo sul tuo PC, non va mai su GitHub)
+
+Per ogni cliente:
+
+1. In `dati.json`: `"gestione": { "attiva": true }`
+2. Genera il sito: viene creata anche la pagina `/gestione/`
+3. `npm run accesso -- nome-cliente` crea il link personale da mandare al titolare (rilanciarlo invalida il precedente)
+
 ## Privacy
 
 `lib/privacy.mjs` contiene un modello di privacy policy per siti **senza cookie e senza moduli**.

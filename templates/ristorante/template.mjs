@@ -58,6 +58,15 @@ const TAG_ETICHETTE = {
   stagionale: 'Di stagione',
 };
 
+/** Identificativo stabile di un piatto, usato dalle modifiche del cliente. */
+export function idPiatto(categoria, piatto) {
+  return `${slug(categoria.nome)}/${slug(piatto.nome)}`;
+}
+
+function gestioneAttiva(d, config) {
+  return Boolean(d.gestione?.attiva && config.gestione?.url_supabase && config.gestione?.chiave_pubblica);
+}
+
 // ---------- pezzi riutilizzabili ----------
 
 function immagine(foto, { classe = '', sizes = '100vw', caricamento = 'lazy', priorita = false } = {}) {
@@ -250,7 +259,7 @@ function sezioneChiSiamo(d, risorse) {
 </section>`;
 }
 
-function sezioneMenu(d) {
+function sezioneMenu(d, conGestione = false) {
   const { menu } = d;
   const categorie = menu.categorie.map((c) => ({ ...c, id: `menu-${slug(c.nome)}` }));
   const indice =
@@ -266,8 +275,8 @@ function sezioneMenu(d) {
           const tag = (p.tag ?? []).length
             ? `<ul class="piatto-tag">${p.tag.map((t) => `<li>${esc(TAG_ETICHETTE[t] ?? t)}</li>`).join('')}</ul>`
             : '';
-          return `<li class="piatto">
-  <p class="piatto-riga"><span class="piatto-nome">${esc(p.nome)}</span><span class="piatto-puntini" aria-hidden="true"></span><span class="piatto-prezzo">${esc(formattaPrezzo(p.prezzo))}</span></p>
+          return `<li class="piatto" data-piatto="${idPiatto(c, p)}">
+  <p class="piatto-riga"><span class="piatto-nome">${esc(p.nome)}</span><span class="piatto-puntini" aria-hidden="true"></span><span class="piatto-prezzo" data-prezzo>${esc(formattaPrezzo(p.prezzo))}</span></p>
   ${p.descrizione ? `<p class="piatto-descrizione">${esc(p.descrizione)}</p>` : ''}
   ${tag}
 </li>`;
@@ -289,6 +298,11 @@ function sezioneMenu(d) {
     <h2 id="titolo-menu">Il menu</h2>
     ${menu.intro ? `<p class="menu-intro">${esc(menu.intro)}</p>` : ''}
   </div>
+  ${conGestione ? `<aside class="piatto-giorno" data-piatto-giorno hidden aria-label="Piatto del giorno">
+    <p class="piatto-giorno-etichetta">Piatto del giorno</p>
+    <p class="piatto-riga"><span class="piatto-nome" data-pg-nome></span><span class="piatto-puntini" aria-hidden="true"></span><span class="piatto-prezzo" data-pg-prezzo></span></p>
+    <p class="piatto-descrizione" data-pg-descrizione></p>
+  </aside>` : ''}
   ${indice}
   <div class="menu-carta">
     ${blocchi}
@@ -360,17 +374,26 @@ function barraAzioni(d) {
 
 // ---------- pagine ----------
 
+function attributiGestione(d, risorse, config) {
+  if (!gestioneAttiva(d, config)) return '';
+  const g = config.gestione;
+  return ` data-sito="${esc(risorse.idSito)}" data-gestione-url="${esc(g.url_supabase.replace(/\/$/, ''))}" data-gestione-chiave="${esc(g.chiave_pubblica)}"`;
+}
+
 function paginaHome(d, risorse, config) {
   const urlSito = d.sito?.dominio ? `https://${d.sito.dominio}` : '';
   const titolo = titoloPagina(d);
   return html([
     testa({ d, risorse, config, titolo, descrizione: d.attivita.descrizione_breve, urlPagina: urlSito ? `${urlSito}/` : '' }),
-    '<body>',
+    `<body${attributiGestione(d, risorse, config)}>`,
     '<a class="salta" href="#contenuto">Vai al contenuto</a>',
     intestazione(d, risorse),
+    gestioneAttiva(d, config)
+      ? '<div class="avviso" data-avviso hidden role="status"><div class="contenitore"><p data-avviso-testo></p></div></div>'
+      : '',
     '<main id="contenuto">',
     sezioneCopertina(d, risorse),
-    sezioneMenu(d),
+    sezioneMenu(d, gestioneAttiva(d, config)),
     sezioneChiSiamo(d, risorse),
     sezioneGalleria(d, risorse),
     sezioneOrariDove(d),
@@ -407,10 +430,81 @@ function paginaPrivacy(d, risorse, config, testoPrivacy) {
   ]);
 }
 
+function paginaGestione(d, risorse, config) {
+  const g = config.gestione;
+  const menu = d.menu.categorie.map((c) => ({
+    nome: c.nome,
+    piatti: c.piatti.map((p) => ({ id: idPiatto(c, p), nome: p.nome, prezzo: formattaPrezzo(p.prezzo) })),
+  }));
+  const datiMenu = JSON.stringify(menu).replaceAll('</', '<\\/');
+  return html([
+    testa({
+      d,
+      risorse,
+      config: { ...config, anteprima: true },
+      titolo: `Gestione, ${d.attivita.nome}`,
+      descrizione: 'Pannello di gestione riservato al titolare.',
+      percorsoRadice: '../',
+      indicizza: false,
+    }),
+    `<body class="gestione" data-sito="${esc(risorse.idSito)}" data-funzione="${esc(g.url_supabase.replace(/\/$/, ''))}/functions/v1/gestione" data-chiave="${esc(g.chiave_pubblica)}">`,
+    `<header class="intestazione"><div class="contenitore intestazione-riga">${marchio(d, risorse, '../')}<nav class="nav nav-sempre" aria-label="Navigazione"><a href="../" target="_blank" rel="noopener">Vedi il sito</a></nav></div></header>`,
+    `<main id="contenuto" class="contenitore contenitore-stretto gestione-corpo">
+<h1>Gestione del sito</h1>
+<p class="gestione-intro">Le modifiche compaiono sul sito subito dopo il salvataggio.</p>
+
+<div class="gestione-messaggio" data-messaggio role="status" aria-live="polite" hidden></div>
+
+<div data-senza-accesso hidden>
+  <p>Per entrare apri il <strong>link personale</strong> che hai ricevuto. Se l'hai perso, chiedine uno nuovo a chi ha realizzato il sito.</p>
+</div>
+
+<div data-pannello hidden>
+  <section class="gestione-blocco" aria-labelledby="g-avviso">
+    <h2 id="g-avviso">Avviso in alto</h2>
+    <p class="gestione-aiuto">Compare in cima al sito. Es. "Stasera chiusi per evento privato".</p>
+    <form data-form-stato="avviso">
+      <label class="interruttore"><input type="checkbox" name="avviso_attivo"><span>Mostra l'avviso</span></label>
+      <label class="campo-g"><span>Testo</span><textarea name="avviso_testo" maxlength="160" rows="2"></textarea></label>
+      <label class="campo-g"><span>Nascondi automaticamente dopo il (facoltativo)</span><input type="date" name="avviso_fino_al"></label>
+      <button class="pulsante" type="submit">Salva avviso</button>
+    </form>
+  </section>
+
+  <section class="gestione-blocco" aria-labelledby="g-piatto">
+    <h2 id="g-piatto">Piatto del giorno</h2>
+    <p class="gestione-aiuto">Compare in evidenza all'inizio del menu.</p>
+    <form data-form-stato="piatto">
+      <label class="interruttore"><input type="checkbox" name="piatto_giorno_attivo"><span>Mostra il piatto del giorno</span></label>
+      <label class="campo-g"><span>Nome del piatto</span><input name="piatto_giorno_nome" maxlength="70"></label>
+      <label class="campo-g"><span>Descrizione (facoltativa)</span><textarea name="piatto_giorno_descrizione" maxlength="200" rows="2"></textarea></label>
+      <label class="campo-g"><span>Prezzo</span><input name="piatto_giorno_prezzo" maxlength="20" inputmode="decimal" placeholder="Es. 14"></label>
+      <button class="pulsante" type="submit">Salva piatto del giorno</button>
+    </form>
+  </section>
+
+  <section class="gestione-blocco" aria-labelledby="g-menu">
+    <h2 id="g-menu">Prezzi e disponibilità</h2>
+    <p class="gestione-aiuto">Cambia un prezzo o segna un piatto come esaurito. "Ripristina" torna al prezzo originale.</p>
+    <div data-elenco-menu></div>
+  </section>
+</div>
+</main>`,
+    `<script type="application/json" id="dati-menu">${datiMenu}</script>`,
+    `<script src="../gestione.js?v=${risorse.versione}" defer></script>`,
+    '</body>',
+    '</html>',
+  ]);
+}
+
 /** Restituisce l'elenco delle pagine da scrivere. */
 export function generaPagine(d, risorse, config, testoPrivacy) {
-  return [
+  const pagine = [
     { percorso: 'index.html', contenuto: paginaHome(d, risorse, config) },
     { percorso: 'privacy/index.html', contenuto: paginaPrivacy(d, risorse, config, testoPrivacy) },
   ];
+  if (gestioneAttiva(d, config)) pagine.push({ percorso: 'gestione/index.html', contenuto: paginaGestione(d, risorse, config) });
+  return pagine;
 }
+
+export { gestioneAttiva };

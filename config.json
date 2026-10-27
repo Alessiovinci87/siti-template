@@ -4,5 +4,10 @@
     "sito": "",
     "mostra_credito": true
   },
-  "dominio_anteprime": "anteprima.example.com"
+  "dominio_anteprime": "anteprima.example.com",
+  "gestione": {
+    "url_supabase": "",
+    "chiave_pubblica": "",
+    "$nota": "URL del progetto e chiave pubblicabile (sb_publishable_...). Sono pensate per stare nel sito: la sicurezza la garantiscono le regole del database."
+  }
 }

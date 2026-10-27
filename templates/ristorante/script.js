@@ -132,3 +132,81 @@
     });
   }
 })();
+
+// Modifiche del titolare (piano Plus): prezzi, piatti esauriti, piatto del giorno, avviso.
+// Se il servizio non risponde, resta semplicemente il menu originale.
+(function () {
+  'use strict';
+
+  var corpo = document.body;
+  var url = corpo.getAttribute('data-gestione-url');
+  var chiave = corpo.getAttribute('data-gestione-chiave');
+  var sito = corpo.getAttribute('data-sito');
+  if (!url || !chiave || !sito || !window.fetch) return;
+
+  var intestazioni = { apikey: chiave };
+  if (chiave.indexOf('eyJ') === 0) intestazioni.Authorization = 'Bearer ' + chiave;
+
+  function leggi(tabella, campi) {
+    var indirizzo = url + '/rest/v1/' + tabella + '?sito_id=eq.' + encodeURIComponent(sito) + '&select=' + campi;
+    return fetch(indirizzo, { headers: intestazioni, cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('lettura non riuscita');
+      return r.json();
+    });
+  }
+
+  // "12" o "12,5" diventano "12 €" / "12,50 €"; un testo libero resta com'è.
+  function prezzoLeggibile(valore) {
+    var v = String(valore).trim();
+    if (/^\d+([.,]\d{1,2})?$/.test(v)) {
+      var numero = parseFloat(v.replace(',', '.'));
+      var decimali = Math.round(numero) === numero ? 0 : 2;
+      return numero.toLocaleString('it-IT', { minimumFractionDigits: decimali, maximumFractionDigits: 2 }) + ' €';
+    }
+    return v;
+  }
+
+  function oggiInItalia() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
+  }
+
+  function applicaStato(stato) {
+    if (!stato) return;
+    var avviso = document.querySelector('[data-avviso]');
+    var scaduto = stato.avviso_fino_al && stato.avviso_fino_al < oggiInItalia();
+    if (avviso && stato.avviso_attivo && stato.avviso_testo && !scaduto) {
+      avviso.querySelector('[data-avviso-testo]').textContent = stato.avviso_testo;
+      avviso.hidden = false;
+    }
+    var pg = document.querySelector('[data-piatto-giorno]');
+    if (pg && stato.piatto_giorno_attivo && stato.piatto_giorno_nome) {
+      pg.querySelector('[data-pg-nome]').textContent = stato.piatto_giorno_nome;
+      pg.querySelector('[data-pg-prezzo]').textContent = stato.piatto_giorno_prezzo ? prezzoLeggibile(stato.piatto_giorno_prezzo) : '';
+      var descrizione = pg.querySelector('[data-pg-descrizione]');
+      descrizione.textContent = stato.piatto_giorno_descrizione || '';
+      descrizione.hidden = !stato.piatto_giorno_descrizione;
+      pg.hidden = false;
+    }
+  }
+
+  function applicaModifiche(modifiche) {
+    modifiche.forEach(function (m) {
+      var piatto = document.querySelector('[data-piatto="' + m.piatto_id.replace(/"/g, '') + '"]');
+      if (!piatto) return;
+      if (m.prezzo) piatto.querySelector('[data-prezzo]').textContent = prezzoLeggibile(m.prezzo);
+      if (m.disponibile === false) {
+        piatto.classList.add('esaurito');
+        var riga = piatto.querySelector('.piatto-riga');
+        if (!riga.querySelector('.piatto-esaurito')) {
+          var etichetta = document.createElement('span');
+          etichetta.className = 'piatto-esaurito';
+          etichetta.textContent = 'Esaurito';
+          riga.querySelector('.piatto-nome').appendChild(etichetta);
+        }
+      }
+    });
+  }
+
+  leggi('stato_sito', '*').then(function (righe) { applicaStato(righe[0]); }).catch(function () {});
+  leggi('modifiche_menu', 'piatto_id,prezzo,disponibile').then(applicaModifiche).catch(function () {});
+})();

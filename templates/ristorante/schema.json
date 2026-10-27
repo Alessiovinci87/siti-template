@@ -184,6 +184,15 @@
       }
     },
 
+    "gestione": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attiva"],
+      "properties": {
+        "attiva": { "type": "boolean", "description": "Piano Plus: il cliente può modificare prezzi, disponibilità, piatto del giorno e avviso" }
+      }
+    },
+
     "sito": {
       "type": "object",
       "additionalProperties": false,

@@ -12,7 +12,8 @@
     "anteprima": "node scripts/anteprima.mjs",
     "seo": "node scripts/seo.mjs",
     "google": "node scripts/google-business.mjs",
-    "demo-foto": "node scripts/crea-foto-demo.mjs"
+    "demo-foto": "node scripts/crea-foto-demo.mjs",
+    "accesso": "node scripts/accesso.mjs"
   },
   "dependencies": {
     "sharp": "^0.34.0",

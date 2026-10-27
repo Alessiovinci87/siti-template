@@ -85,6 +85,10 @@ body {
   overflow-x: hidden;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -869,4 +873,189 @@ ul {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* ---------- Modifiche del titolare (piano Plus) ---------- */
+
+.avviso {
+  background: var(--accento-2);
+  color: #fff;
+  font-weight: 600;
+}
+
+[data-variante="notte"] .avviso {
+  color: var(--accento-testo);
+}
+
+.avviso p {
+  margin: 0;
+  padding-block: 0.7rem;
+  text-align: center;
+}
+
+.piatto-giorno {
+  max-width: 40rem;
+  margin: 0 0 2.25rem;
+  padding: 1.1rem 1.25rem 1.2rem;
+  border: 1.5px solid var(--accento);
+  border-radius: var(--raggio);
+  background: var(--sfondo);
+}
+
+.piatto-giorno-etichetta {
+  margin: 0 0 0.35rem;
+  color: var(--accento);
+  font-family: var(--font-titoli);
+  font-size: calc(1.2rem * var(--scala-titoli));
+}
+
+.piatto.esaurito .piatto-nome,
+.piatto.esaurito .piatto-prezzo,
+.piatto.esaurito .piatto-descrizione {
+  opacity: 0.55;
+}
+
+.piatto.esaurito .piatto-prezzo {
+  text-decoration: line-through;
+}
+
+.piatto-esaurito {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--testo);
+  color: var(--sfondo);
+  font-size: 0.75rem;
+  font-weight: 600;
+  vertical-align: 0.15em;
+}
+
+/* ---------- Pannello di gestione ---------- */
+
+body.gestione {
+  padding-bottom: 3rem;
+}
+
+.gestione-corpo {
+  padding-block: 2rem 3rem;
+}
+
+.gestione-corpo h1 {
+  font-size: calc(clamp(2rem, 1.6rem + 2vw, 2.75rem) * var(--scala-titoli));
+  margin-bottom: 0.3rem;
+}
+
+.gestione-intro,
+.gestione-aiuto {
+  color: var(--testo-tenue);
+}
+
+.gestione-blocco {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--raggio);
+}
+
+.gestione-blocco h2 {
+  font-size: calc(1.5rem * var(--scala-titoli));
+  margin-bottom: 0.3rem;
+}
+
+.gestione-blocco h3 {
+  font-size: calc(1.2rem * var(--scala-titoli));
+  margin: 1.5rem 0 0.5rem;
+}
+
+.gestione-blocco form {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.campo-g {
+  display: grid;
+  gap: 0.3rem;
+  width: 100%;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.campo-g input,
+.campo-g textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--raggio);
+  background: var(--sfondo);
+  color: var(--testo);
+  font: inherit;
+  font-weight: 400;
+}
+
+.campo-g input:focus,
+.campo-g textarea:focus {
+  border-color: var(--accento);
+  outline: none;
+}
+
+.interruttore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.interruttore input {
+  width: 1.35rem;
+  height: 1.35rem;
+  accent-color: var(--accento);
+}
+
+.riga-piatto {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--linea);
+}
+
+.riga-piatto-nome {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.riga-piatto.esaurito .riga-piatto-nome {
+  color: var(--testo-tenue);
+  text-decoration: line-through;
+}
+
+.riga-piatto-controlli {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.6rem 0.9rem;
+}
+
+.campo-prezzo {
+  width: 7.5rem;
+}
+
+.gestione-messaggio {
+  position: sticky;
+  top: 4.5rem;
+  z-index: 15;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--raggio);
+  background: var(--accento);
+  color: var(--accento-testo);
+  font-weight: 600;
+}
+
+.gestione-messaggio[data-tipo="errore"] {
+  background: #9b2c2c;
+  color: #fff;
 }

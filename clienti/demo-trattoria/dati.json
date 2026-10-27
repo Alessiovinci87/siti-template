@@ -109,5 +109,9 @@
 
   "stile": {
     "variante": "terra"
+  },
+
+  "gestione": {
+    "attiva": true
   }
 }

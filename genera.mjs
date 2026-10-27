@@ -139,12 +139,21 @@ async function main() {
   const css = `${font.css}\n${cssTemplate}`;
   await writeFile(path.join(uscita, 'stile.css'), css);
   await writeFile(path.join(uscita, 'script.js'), jsTemplate);
+  const conGestione = template.gestioneAttiva?.(dati, config) ?? false;
+  let jsGestione = '';
+  if (conGestione) {
+    jsGestione = await readFile(path.join(cartellaTemplate, 'gestione.js'), 'utf8');
+    await writeFile(path.join(uscita, 'gestione.js'), jsGestione);
+  } else if (dati.gestione?.attiva) {
+    avvisi.push('Gestione attiva nei dati ma manca la configurazione Supabase in config.json: pannello non generato');
+  }
   risorse.font = font;
-  risorse.versione = impronta(css, jsTemplate);
+  risorse.versione = impronta(css, jsTemplate, jsGestione);
+  risorse.idSito = opzioni.cliente;
 
   // 6. Pagine
   const configPagine = { ...config, anteprima: opzioni.anteprima };
-  const pagine = template.generaPagine(dati, risorse, configPagine, testoPrivacy(dati));
+  const pagine = template.generaPagine(dati, risorse, configPagine, testoPrivacy(dati, { conGestione }));
   for (const pagina of pagine) {
     const destinazione = path.join(uscita, pagina.percorso);
     await mkdir(path.dirname(destinazione), { recursive: true });
@@ -156,7 +165,7 @@ async function main() {
   if (opzioni.anteprima) {
     await writeFile(path.join(uscita, 'robots.txt'), 'User-agent: *\nDisallow: /\n');
   } else {
-    await writeFile(path.join(uscita, 'robots.txt'), `User-agent: *\nAllow: /\n${dominio ? `Sitemap: https://${dominio}/sitemap.xml\n` : ''}`);
+    await writeFile(path.join(uscita, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gestione/\n${dominio ? `Sitemap: https://${dominio}/sitemap.xml\n` : ''}`);
     if (dominio) {
       const oggi = new Date().toISOString().slice(0, 10);
       const url = [`https://${dominio}/`];
