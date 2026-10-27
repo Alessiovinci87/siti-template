@@ -1,0 +1,92 @@
+{
+  "$descrizione": "Database parole chiave per SEO locale. {citta}, {tipo}, {cucina}, {zona}, {piatto} vengono sostituiti con i dati del cliente. 'priorita': alta = ricerca con forte intenzione di andare nel locale. Non ci sono volumi di ricerca: si possono aggiungere importando un CSV da Google Keyword Planner (vedi docs/seo.md).",
+
+  "ristorante": {
+    "intenti": [
+      { "frase": "{tipo} {citta}", "priorita": "alta" },
+      { "frase": "{cucina} {citta}", "priorita": "alta" },
+      { "frase": "ristorante {citta}", "priorita": "alta" },
+      { "frase": "dove mangiare {a_citta}", "priorita": "alta" },
+      { "frase": "ristoranti {citta} centro", "priorita": "alta" },
+      { "frase": "{tipo} {citta} {zona}", "priorita": "media" },
+      { "frase": "migliori ristoranti {citta}", "priorita": "media" },
+      { "frase": "ristorante tipico {citta}", "priorita": "media" },
+      { "frase": "{tipo} {citta} prenotazione", "priorita": "media" },
+      { "frase": "{tipo} {citta} aperto domenica", "priorita": "bassa", "se": "aperto_domenica" },
+      { "frase": "{tipo} {citta} aperto lunedì", "priorita": "bassa", "se": "aperto_lunedi" },
+      { "frase": "{tipo} {citta} pranzo", "priorita": "bassa", "se": "aperto_pranzo" },
+      { "frase": "cena {citta}", "priorita": "bassa", "se": "aperto_cena" }
+    ],
+    "intenti_en": [
+      { "frase": "best restaurants in {citta}", "priorita": "alta" },
+      { "frase": "where to eat in {citta}", "priorita": "alta" },
+      { "frase": "{cucina_en} restaurant {citta}", "priorita": "alta" },
+      { "frase": "{tipo_en} {citta}", "priorita": "media" }
+    ],
+
+    "tipi": {
+      "trattoria": { "en": "trattoria", "sinonimi": ["trattoria tipica", "osteria"], "categoria_google": "Trattoria" },
+      "osteria": { "en": "osteria", "sinonimi": ["osteria tipica", "trattoria"], "categoria_google": "Osteria" },
+      "ristorante": { "en": "restaurant", "sinonimi": ["ristorante tipico"], "categoria_google": "Ristorante" },
+      "ristorante di pesce": { "en": "seafood restaurant", "sinonimi": ["ristorante pesce", "pesce fresco"], "categoria_google": "Ristorante di pesce" },
+      "pizzeria": { "en": "pizzeria", "sinonimi": ["pizza", "pizzeria forno a legna"], "categoria_google": "Pizzeria" },
+      "bar": { "en": "bar", "sinonimi": ["caffetteria", "colazione"], "categoria_google": "Bar" },
+      "wine bar": { "en": "wine bar", "sinonimi": ["enoteca", "vini sardi"], "categoria_google": "Wine bar" },
+      "cocktail bar": { "en": "cocktail bar", "sinonimi": ["aperitivo", "cocktail"], "categoria_google": "Cocktail bar" },
+      "agriturismo": { "en": "farmhouse restaurant", "sinonimi": ["agriturismo cucina tipica", "pranzo in campagna"], "categoria_google": "Agriturismo" },
+      "chiosco": { "en": "beach bar", "sinonimi": ["chiosco spiaggia", "bar sulla spiaggia"], "categoria_google": "Bar" }
+    },
+
+    "cucine": {
+      "cucina sarda": { "en": "sardinian", "sinonimi": ["cucina tipica sarda", "piatti tipici sardi", "cucina tradizionale sarda"], "categoria_google": "Ristorante sardo" },
+      "pesce": { "en": "seafood", "sinonimi": ["pesce fresco", "cucina di mare", "crudi di mare"], "categoria_google": "Ristorante di pesce" },
+      "cucina di mare": { "en": "seafood", "sinonimi": ["pesce fresco", "frutti di mare"], "categoria_google": "Ristorante di pesce" },
+      "carne": { "en": "steakhouse", "sinonimi": ["carne alla brace", "grigliata di carne"], "categoria_google": "Steakhouse" },
+      "pizza napoletana": { "en": "neapolitan pizza", "sinonimi": ["pizza napoletana forno a legna"], "categoria_google": "Pizzeria" },
+      "cucina italiana": { "en": "italian", "sinonimi": ["cucina italiana tradizionale"], "categoria_google": "Ristorante italiano" },
+      "cucina catalana": { "en": "catalan", "sinonimi": ["cucina algherese", "cucina tipica algherese"], "categoria_google": "Ristorante" },
+      "vegetariana": { "en": "vegetarian", "sinonimi": ["ristorante vegetariano", "opzioni vegane"], "categoria_google": "Ristorante vegetariano" }
+    },
+
+    "piatti": {
+      "culurgiones": { "en": "culurgiones", "frasi": ["culurgiones {citta}", "dove mangiare culurgiones {a_citta}"] },
+      "malloreddus": { "en": "malloreddus", "frasi": ["malloreddus {citta}"] },
+      "fregola": { "en": "fregola", "frasi": ["fregola con arselle {citta}", "fregola {citta}"] },
+      "porceddu": { "en": "suckling pig", "frasi": ["porceddu {citta}", "dove mangiare il porceddu {a_citta}"] },
+      "seadas": { "en": "seadas", "frasi": ["seadas {citta}"] },
+      "aragosta": { "en": "lobster", "frasi": ["aragosta alla catalana {citta}", "aragosta {citta}"] },
+      "bottarga": { "en": "bottarga", "frasi": ["bottarga {citta}", "spaghetti alla bottarga {citta}"] },
+      "pane carasau": { "en": "carasau bread", "frasi": ["pane carasau {citta}"] },
+      "ricci": { "en": "sea urchins", "frasi": ["ricci di mare {citta}", "spaghetti ai ricci {citta}"] },
+      "pizza": { "en": "pizza", "frasi": ["pizza {citta}", "pizza a domicilio {citta}"] },
+      "crudi": { "en": "raw seafood", "frasi": ["crudi di mare {citta}"] },
+      "paella": { "en": "paella", "frasi": ["paella {citta}"] }
+    },
+
+    "servizi": {
+      "tavoli all'aperto": ["ristorante con tavoli all'aperto {citta}", "mangiare all'aperto {citta}"],
+      "asporto": ["asporto {citta}", "{tipo} da asporto {citta}"],
+      "consegna": ["consegna a domicilio {citta}"],
+      "piatti vegetariani": ["ristorante vegetariano {citta}"],
+      "opzioni vegane": ["ristorante vegano {citta}"],
+      "senza glutine": ["ristorante senza glutine {citta}", "ristorante per celiaci {citta}"],
+      "menu per bambini": ["ristorante per bambini {citta}", "ristorante adatto ai bambini {citta}"],
+      "vista mare": ["ristorante vista mare {citta}", "cena vista mare {citta}"],
+      "animali ammessi": ["ristorante dog friendly {citta}"],
+      "parcheggio": ["ristorante con parcheggio {citta}"]
+    }
+  },
+
+  "localita": {
+    "Alghero": { "zone": ["centro storico", "lungomare", "bastioni", "porto"], "en": "Alghero" },
+    "Sassari": { "zone": ["centro", "centro storico"], "en": "Sassari" },
+    "Stintino": { "zone": ["porto", "La Pelosa"], "en": "Stintino" },
+    "Castelsardo": { "zone": ["centro storico", "porto"], "en": "Castelsardo" },
+    "Bosa": { "zone": ["centro storico", "Bosa Marina"], "en": "Bosa" },
+    "Porto Torres": { "zone": ["porto", "lungomare"], "en": "Porto Torres" },
+    "Olbia": { "zone": ["centro", "porto"], "en": "Olbia" },
+    "Cagliari": { "zone": ["Marina", "Castello", "Poetto"], "en": "Cagliari" },
+    "Oristano": { "zone": ["centro"], "en": "Oristano" },
+    "Nuoro": { "zone": ["centro"], "en": "Nuoro" }
+  }
+}

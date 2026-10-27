@@ -165,6 +165,25 @@
       }
     },
 
+    "seo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "titolo": { "type": "string", "minLength": 20, "maxLength": 65, "description": "Titolo per Google, se diverso da quello automatico (massimo 65 caratteri)" },
+        "parole_chiave": { "type": "array", "maxItems": 12, "items": { "type": "string" }, "description": "Parole chiave scelte per i testi (da npm run seo)" }
+      }
+    },
+
+    "google": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "categoria_principale": { "type": "string", "minLength": 3 },
+        "categorie_secondarie": { "type": "array", "maxItems": 9, "items": { "type": "string" } },
+        "descrizione": { "type": "string", "minLength": 100, "maxLength": 750, "description": "Descrizione per la scheda Google Business, massimo 750 caratteri, senza link" }
+      }
+    },
+
     "sito": {
       "type": "object",
       "additionalProperties": false,

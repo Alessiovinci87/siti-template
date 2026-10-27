@@ -17,9 +17,13 @@ Regole per i testi:
 - Menu: trascrivi i piatti esattamente come scritti dal cliente, correggendo solo i refusi. Prezzi come numeri (12, 12.5) oppure testo breve ("a peso"). Aggiungi i tag solo se il cliente li ha indicati.
 - Telefoni con prefisso: "+39 ...". Orari nel formato "HH:MM". Provincia in sigla maiuscola.
 - Per ogni foto scrivi un testo `alt` che descriva cosa si vede (es. "Fregola con arselle in un piatto di ceramica").
+- Usa in modo naturale queste parole chiave (da `npm run seo`): nello slogan o nella descrizione breve la principale, nei paragrafi le altre. Mai elenchi di parole chiave, mai ripetizioni forzate.
+- Scrivi anche l'oggetto `google` con la `descrizione` per la scheda Google Business: 400-750 caratteri, senza link né prezzi.
 - Nomi dei file foto: usa i nomi che ti indico qui sotto.
 
 Alla fine, sotto il JSON, elenca in un breve elenco puntato le informazioni che mancano o che sono dubbie, così le chiedo al cliente.
+
+Parole chiave: [INCOLLA QUI L'ELENCO DA report/<cliente>/seo.md]
 
 Nomi dei file foto: [ELENCO]
 

@@ -10,6 +10,8 @@
   "scripts": {
     "sito": "node genera.mjs",
     "anteprima": "node scripts/anteprima.mjs",
+    "seo": "node scripts/seo.mjs",
+    "google": "node scripts/google-business.mjs",
     "demo-foto": "node scripts/crea-foto-demo.mjs"
   },
   "dependencies": {

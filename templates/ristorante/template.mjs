@@ -12,6 +12,7 @@ import {
   html,
 } from '../../lib/util.mjs';
 import { icone } from './icone.mjs';
+import { titoloPagina } from '../../lib/seo.mjs';
 
 export const GIORNI = [
   { chiave: 'lun', nome: 'Lunedì', schema: 'Monday' },
@@ -361,7 +362,7 @@ function barraAzioni(d) {
 
 function paginaHome(d, risorse, config) {
   const urlSito = d.sito?.dominio ? `https://${d.sito.dominio}` : '';
-  const titolo = `${d.attivita.nome}, ${[d.attivita.tipo, d.contatti.indirizzo.citta].filter(Boolean).join(' a ')}`;
+  const titolo = titoloPagina(d);
   return html([
     testa({ d, risorse, config, titolo, descrizione: d.attivita.descrizione_breve, urlPagina: urlSito ? `${urlSito}/` : '' }),
     '<body>',
