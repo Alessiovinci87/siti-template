@@ -1,0 +1,8 @@
+{
+  "brand": {
+    "nome": "Nome del brand",
+    "sito": "",
+    "mostra_credito": true
+  },
+  "dominio_anteprime": "anteprima.example.com"
+}

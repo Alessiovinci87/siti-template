@@ -1,0 +1,22 @@
+{
+  "name": "siti-template",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Generatore di siti statici da template per attività locali",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "sito": "node genera.mjs",
+    "anteprima": "node scripts/anteprima.mjs",
+    "demo-foto": "node scripts/crea-foto-demo.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.0",
+    "@fontsource/young-serif": "^5.0.0",
+    "@fontsource-variable/figtree": "^5.0.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.0.0",
+    "@fontsource/cormorant-garamond": "^5.0.0"
+  }
+}

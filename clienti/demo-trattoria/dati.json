@@ -1,0 +1,113 @@
+{
+  "$schema": "../../templates/ristorante/schema.json",
+  "template": "ristorante",
+
+  "attivita": {
+    "nome": "Trattoria Su Mirtu",
+    "tipo": "Trattoria",
+    "cucina": "Cucina sarda",
+    "slogan": "Pasta fatta a mano ogni mattina e il pesce del giorno, a due passi dai bastioni.",
+    "descrizione_breve": "Trattoria di cucina sarda nel centro storico di Alghero: culurgiones fatti a mano, pesce del giorno e seadas. Prenota su WhatsApp.",
+    "chi_siamo": [
+      "Su Mirtu è nata nel 1998 in una vecchia cantina del centro storico. In cucina c'è ancora la stessa famiglia, e la pasta si chiude a mano ogni mattina, come una volta.",
+      "Lavoriamo con il pescato della flotta di Alghero e con i formaggi e i salumi di piccoli produttori dell'entroterra. Il menu cambia con le stagioni, la cura no."
+    ],
+    "anno_apertura": 1998,
+    "servizi": ["Tavoli all'aperto", "Piatti vegetariani", "Menu per bambini", "Asporto"]
+  },
+
+  "contatti": {
+    "telefono": "+39 079 000 0000",
+    "whatsapp": "+39 333 000 0000",
+    "messaggio_whatsapp": "Ciao, vorrei prenotare un tavolo per",
+    "email": "info@example.com",
+    "indirizzo": {
+      "via": "Via dei Coralli 12",
+      "cap": "07041",
+      "citta": "Alghero",
+      "provincia": "SS",
+      "indicazioni": "Nel centro storico, a 3 minuti a piedi dai bastioni. Parcheggio più vicino: piazza della Mercede."
+    },
+    "social": {
+      "instagram": "https://www.instagram.com/",
+      "facebook": "https://www.facebook.com/",
+      "tripadvisor": "https://www.tripadvisor.it/"
+    }
+  },
+
+  "orari": {
+    "lun": [],
+    "mar": [["12:30", "15:00"], ["19:30", "23:00"]],
+    "mer": [["12:30", "15:00"], ["19:30", "23:00"]],
+    "gio": [["12:30", "15:00"], ["19:30", "23:00"]],
+    "ven": [["12:30", "15:00"], ["19:30", "23:30"]],
+    "sab": [["12:30", "15:30"], ["19:30", "23:30"]],
+    "dom": [["12:30", "15:30"]],
+    "note": "Chiusi per ferie dal 10 al 31 gennaio."
+  },
+
+  "menu": {
+    "intro": "Il pane carasau e i dolci li facciamo noi. Il pesce dipende da cosa porta il mare: chiedici il piatto del giorno.",
+    "categorie": [
+      {
+        "nome": "Antipasti",
+        "piatti": [
+          { "nome": "Tagliere di terra", "descrizione": "Salumi dell'entroterra, pecorino stagionato, olive e pane carasau", "prezzo": 14 },
+          { "nome": "Carpaccio di polpo", "descrizione": "Con patate, sedano e olio al limone", "prezzo": 13 },
+          { "nome": "Bottarga di muggine", "descrizione": "Su crostini di pane casereccio e burro salato", "prezzo": 12, "tag": ["della casa"] }
+        ]
+      },
+      {
+        "nome": "Primi",
+        "piatti": [
+          { "nome": "Culurgiones al pomodoro", "descrizione": "Ravioli di patate, pecorino e menta, chiusi a mano", "prezzo": 13, "tag": ["vegetariano", "della casa"] },
+          { "nome": "Malloreddus alla campidanese", "descrizione": "Con ragù di salsiccia e zafferano", "prezzo": 12 },
+          { "nome": "Fregola con arselle", "descrizione": "Fregola tostata, arselle e prezzemolo", "prezzo": 15 }
+        ]
+      },
+      {
+        "nome": "Secondi",
+        "piatti": [
+          { "nome": "Pesce del giorno alla vernaccia", "descrizione": "Secondo il pescato, chiedi al personale", "prezzo": "a peso" },
+          { "nome": "Porceddu al mirto", "descrizione": "Maialino arrosto con patate al forno", "prezzo": 18 },
+          { "nome": "Aragosta alla catalana", "descrizione": "Con pomodoro, cipolla rossa e sedano", "prezzo": "a peso", "tag": ["stagionale"] }
+        ]
+      },
+      {
+        "nome": "Dolci",
+        "piatti": [
+          { "nome": "Seadas al miele di corbezzolo", "descrizione": "Fritte al momento", "prezzo": 6, "tag": ["della casa"] },
+          { "nome": "Sorbetto al mirto", "prezzo": 5, "tag": ["vegano", "senza glutine"] }
+        ]
+      }
+    ],
+    "coperto": "2,50 €",
+    "nota_allergeni": "Se hai allergie o intolleranze, diccelo al momento dell'ordine: l'elenco degli allergeni è disponibile in sala."
+  },
+
+  "foto": {
+    "copertina": { "file": "copertina.jpg", "alt": "La sala di Trattoria Su Mirtu con i tavoli apparecchiati" },
+    "sala": [
+      { "file": "sala-1.jpg", "alt": "La sala principale con le volte in pietra" },
+      { "file": "sala-2.jpg", "alt": "I tavoli all'aperto nel vicolo" }
+    ],
+    "piatti": [
+      { "file": "piatto-1.jpg", "alt": "Culurgiones al pomodoro e basilico" },
+      { "file": "piatto-2.jpg", "alt": "Fregola con arselle" },
+      { "file": "piatto-3.jpg", "alt": "Carpaccio di polpo con patate" },
+      { "file": "piatto-4.jpg", "alt": "Porceddu al mirto con patate al forno" },
+      { "file": "piatto-5.jpg", "alt": "Seadas al miele di corbezzolo" }
+    ],
+    "team": { "file": "team.jpg", "alt": "La famiglia di Su Mirtu in cucina" }
+  },
+
+  "legale": {
+    "ragione_sociale": "Su Mirtu di Esempio Mario",
+    "piva": "00000000000",
+    "sede_legale": "Via dei Coralli 12, 07041 Alghero (SS)"
+  },
+
+  "stile": {
+    "variante": "terra"
+  }
+}
