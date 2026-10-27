@@ -6,8 +6,8 @@
   },
   "dominio_anteprime": "anteprima.example.com",
   "gestione": {
-    "url_supabase": "",
-    "chiave_pubblica": "",
+    "url_supabase": "https://ertvrmcmdhwrmhdtzliw.supabase.co",
+    "chiave_pubblica": "sb_publishable_BsUl-mVAJyKXuXGRQrf_dA_ZQB3G8r_",
     "$nota": "URL del progetto e chiave pubblicabile (sb_publishable_...). Sono pensate per stare nel sito: la sicurezza la garantiscono le regole del database."
   }
 }
